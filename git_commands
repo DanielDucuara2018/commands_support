@@ -1,0 +1,17 @@
+# A new repo from an existing project
+git init
+git add .
+
+# setup 
+git config --list --show-origin
+git config --global user.name "<USERNAME>"
+git config --global user.email <EMAIL>
+# git config --global credential.helper store (optional)
+git config --global credential.username "<GITHUB_USERNAME>"
+
+
+git commit -m "<COMMIT_NAME>"
+git branch -M master
+git remote add origin https://github.com/username/new_repo
+git push -u origin master
+ 

@@ -1,0 +1,100 @@
+# ref -> https://www.youtube.com/watch?v=3c-iBn73dDE&list=PLJ6z0UeFeiCfFIj0-gaIpVyju190fbp-E&index=24&t=5728s
+
+sudo snap install docker
+sudo apt install docker.io
+
+sudo docker ps
+sudo docker ps -a
+sudo docker images
+sudo docker pull <IMAGE>
+sudo docker run -d  <IMAGE>:<TAG> (TAG optional)
+sudo docker run -d  --name <NAME> <IMAGE>:<TAG> (TAG optional)
+sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> <IMAGE>:<TAG> (TAG optional)
+sudo docker stop  <CONTAINER ID>
+sudo docker start <CONTAINER ID>
+sudo docker logs <CONTAINER ID> | tail
+sudo docker logs <NAME> | head
+sudo docker exec -it <CONTAINER ID> /bin/bash (bash or sh)
+sudo docker exec -it <NAME> /bin/bash (bash or sh)
+
+sudo docker network ls
+sudo docker network create <NETWORK_NAME>
+sudo coket run -d -p <HOSt_PORT>:<CONTAINER_PORT> -e <ENV_VARIABLE> = <VALUE> --name <NAME> --net <NETWORK_NAME> <IMAGE>:<TAG> (TAG optional)
+
+sudo docker rm <CONTAINER_ID> (from sudo docker ps -a)
+sudo docker rmi <IMAGE ID> (from sudo docker images)
+
+sudo docker login
+sudo docker tag <IMAGE>:<TAG> <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+sudo docker push <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+
+#-------------------------------------------------------------------
+# Configuration YAML file for docker composee -> for deployment
+version:'3'
+services:	
+	<NAME1>:
+		image:<IMAGE>
+		ports: 
+		- <HOSt_PORT>:<CONTAINER_PORT>
+		environment: 
+		- <ENV_VARIABLE> = <VALUE>
+		.
+		.
+		.
+	<NAME2>:
+		image:<IMAGE>
+		ports: 
+		- <HOSt_PORT>:<CONTAINER_PORT>
+		environment: 
+		- <ENV_VARIABLE> = <VALUE>
+		.
+		.
+		.
+		
+# Both services will be over the same network (same file same network)
+
+sudo docker-compose -f <NAME_FILE>.yaml up
+sudo docker-compose -f <NAME_FILE>.yaml down
+
+# if we are deploying our own project it's neccessary to add :
+	<NAME3>:
+		image:<DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+		ports: 
+		- <HOSt_PORT>:<CONTAINER_PORT>
+	
+# for data persistance, we need to use "Volume" option -> documentation
+		
+#----------------------------------------------------------------
+# Dockerfile to build my own project -> to create a new docker container
+
+FROM <IMAGE_BASE>:<TAG>
+
+ENV <ENV_VARIABLE> = <VALUE>
+	.
+	.
+	.
+
+RUN mkdir -p /home/app
+
+COPY . /home/app
+
+CMD ["<IMAGE_BASE>","<SERVER_FILE_LOCATION>"]
+
+
+sudo docker build -t <IMAGE_MY_PROJECT>:<TAG>	<PROJECT_LOCATION> (TAG optional)
+sudo docker run -d  <IMAGE_MY_PROJECT>:<TAG> (TAG optional)
+
+#----------------------------------------------------------------
+# AWS -> ECR -> Elastic Container Registry
+# Create a repository using <IMAGE>
+
+sudo docker login (log in ECR repository. see documentation)
+sudo docker tag <IMAGE>:<TAG> <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+sudo docker push <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+
+
+
+
+
+
+
