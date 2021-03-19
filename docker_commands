@@ -3,6 +3,7 @@
 sudo snap install docker
 sudo apt install docker.io
 
+sudo docker --help
 sudo docker ps
 sudo docker ps -a
 sudo docker images
@@ -19,7 +20,7 @@ sudo docker exec -it <NAME> /bin/bash (bash or sh)
 
 sudo docker network ls
 sudo docker network create <NETWORK_NAME>
-sudo coket run -d -p <HOSt_PORT>:<CONTAINER_PORT> -e <ENV_VARIABLE> = <VALUE> --name <NAME> --net <NETWORK_NAME> <IMAGE>:<TAG> (TAG optional)
+sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> -e <ENV_VARIABLE> = <VALUE> --name <NAME> --net <NETWORK_NAME> <IMAGE>:<TAG> (TAG optional)
 
 sudo docker rm <CONTAINER_ID> (from sudo docker ps -a)
 sudo docker rmi <IMAGE ID> (from sudo docker images)
@@ -27,6 +28,8 @@ sudo docker rmi <IMAGE ID> (from sudo docker images)
 sudo docker login
 sudo docker tag <IMAGE>:<TAG> <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
 sudo docker push <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
+
+sudo docker inspect <IMAGE_ID>
 
 #-------------------------------------------------------------------
 # Configuration YAML file for docker composee -> for deployment
@@ -53,7 +56,7 @@ services:
 		
 # Both services will be over the same network (same file same network)
 
-sudo docker-compose -f <NAME_FILE>.yaml up
+sudo docker-compose -f <NAME_FILE>.yaml up -d
 sudo docker-compose -f <NAME_FILE>.yaml down
 
 # if we are deploying our own project it's neccessary to add :
@@ -63,7 +66,12 @@ sudo docker-compose -f <NAME_FILE>.yaml down
 		- <HOSt_PORT>:<CONTAINER_PORT>
 	
 # for data persistance, we need to use "Volume" option -> documentation
-		
+
+# Finding the container Data on the Docker Host
+
+sudo docker volume inspect <FOLDER_NAME> # ex. jenkins_home
+sudo  ls -l <MOUNTPOINT>
+
 #----------------------------------------------------------------
 # Dockerfile to build my own project -> to create a new docker container
 

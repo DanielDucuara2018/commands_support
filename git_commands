@@ -25,4 +25,9 @@ git checkout <HASH_COMMIT> # Change current workspace to a given commit
 # Branch
 git branch # List of branches
 git checkout -b <BRANCH_NAME> # Branch change
+
+# Push process
+git add <NAME_FILE> or git add . 
+git commit -m "<COMMIT_NAME>"
+git push
  
