@@ -14,4 +14,15 @@ git commit -m "<COMMIT_NAME>"
 git branch -M master
 git remote add origin https://github.com/username/new_repo
 git push -u origin master
+
+# Repository state
+git status
+git log
+
+# Commit
+git checkout <HASH_COMMIT> # Change current workspace to a given commit
+
+# Branch
+git branch # List of branches
+git checkout -b <BRANCH_NAME> # Branch change
  
