@@ -4,32 +4,37 @@ sudo snap install docker
 sudo apt install docker.io
 
 sudo docker --help
+sudo docker search <APP_NAME>
 sudo docker ps
 sudo docker ps -a
 sudo docker images
 sudo docker pull <IMAGE>
-sudo docker run -d  <IMAGE>:<TAG> (TAG optional)
-sudo docker run -d  --name <NAME> <IMAGE>:<TAG> (TAG optional)
-sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> <IMAGE>:<TAG> (TAG optional)
+sudo docker run -d  <IMAGE>:<TAG> # (TAG optional) -d is detach
+sudo docker run -d  --name <NAME> <IMAGE>:<TAG> # (TAG optional) --name is for assigning a name to the container 
+sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> <IMAGE>:<TAG> # (TAG optional) -p is for assigning a port
 sudo docker stop  <CONTAINER ID>
 sudo docker start <CONTAINER ID>
 sudo docker logs <CONTAINER ID> | tail
 sudo docker logs <NAME> | head
-sudo docker exec -it <CONTAINER ID> /bin/bash (bash or sh)
-sudo docker exec -it <NAME> /bin/bash (bash or sh)
+sudo docker exec -it <CONTAINER ID> /bin/bash # (bash or sh) and -it is interactive mode
+sudo docker exec -it <NAME> /bin/bash # (bash or sh)
 
 sudo docker network ls
 sudo docker network create <NETWORK_NAME>
-sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> -e <ENV_VARIABLE> = <VALUE> --name <NAME> --net <NETWORK_NAME> <IMAGE>:<TAG> (TAG optional)
+sudo docker run -d -p <HOSt_PORT>:<CONTAINER_PORT> -e <ENV_VARIABLE> = <VALUE> --name <NAME> --net <NETWORK_NAME> <IMAGE>:<TAG> # (TAG optional) -e is for environment variables and --net assings a network name or attachs the container to a network group
 
-sudo docker rm <CONTAINER_ID> (from sudo docker ps -a)
-sudo docker rmi <IMAGE ID> (from sudo docker images)
+sudo docker rm <CONTAINER_ID> # (get CONTAINER_ID from sudo docker ps -a)
+sudo docker rmi <IMAGE ID>  # (get IMAGE ID from sudo docker images)
 
 sudo docker login
 sudo docker tag <IMAGE>:<TAG> <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
 sudo docker push <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
 
 sudo docker inspect <IMAGE_ID>
+
+# In order to supervise docker process and installations 
+sudo watch docker ps # watch command allows to supervise a process in real time
+sudo docker logs -f --tail=<NUMBER_LINES> <CONTAINER ID> # -f is for following the logs in real time
 
 #-------------------------------------------------------------------
 # Configuration YAML file for docker composee -> for deployment
@@ -56,7 +61,7 @@ services:
 		
 # Both services will be over the same network (same file same network)
 
-sudo docker-compose -f <NAME_FILE>.yaml up -d
+sudo docker-compose -f <NAME_FILE>.yaml up -d # -f is to define the docker compose file location and -d detach
 sudo docker-compose -f <NAME_FILE>.yaml down
 
 # if we are deploying our own project it's neccessary to add :
@@ -73,7 +78,7 @@ sudo docker volume inspect <FOLDER_NAME> # ex. jenkins_home
 sudo  ls -l <MOUNTPOINT>
 
 #----------------------------------------------------------------
-# Dockerfile to build my own project -> to create a new docker container
+# Dockerfile to build my own project -> to create a new docker container for my project
 
 FROM <IMAGE_BASE>:<TAG>
 
@@ -89,14 +94,14 @@ COPY . /home/app
 CMD ["<IMAGE_BASE>","<SERVER_FILE_LOCATION>"]
 
 
-sudo docker build -t <IMAGE_MY_PROJECT>:<TAG>	<PROJECT_LOCATION> (TAG optional)
-sudo docker run -d  <IMAGE_MY_PROJECT>:<TAG> (TAG optional)
+sudo docker build -t <IMAGE_MY_PROJECT>:<TAG>	<PROJECT_LOCATION> # (TAG optional) and -t means tag
+sudo docker run -d  <IMAGE_MY_PROJECT>:<TAG> # (TAG optional)
 
 #----------------------------------------------------------------
 # AWS -> ECR -> Elastic Container Registry
 # Create a repository using <IMAGE>
 
-sudo docker login (log in ECR repository. see documentation)
+sudo docker login -u <USERNAME> -p <PASSWORD> <URL_DOCKER_REPOSITORY> #-u and -p parameters are optional (log in ECR repository. see documentation)
 sudo docker tag <IMAGE>:<TAG> <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
 sudo docker push <DOMAIN_REPOSITORY>/<IMAGE>:<TAG>
 

@@ -30,4 +30,4 @@ sudo dpkg -i <PACKAGE_FILE>.deb
 # CTRL + R for searching an already used linux command 
 # Ctrl+Alt+Maj+R for recording my computer windows
 
-which <<NAME_APP> #find app location
+which <NAME_APP> #find app location
