@@ -7,5 +7,4 @@ vagrant box remove # remove a VM
 vagrant global-status # list of running VMs
 vagrant destroy # run in the VM folder. Result: VM is stopped and deleted
 
-vagrant plugin install vagrant-docker
 vagrant plugin install vagrant-docker-compose # docker compose installation
